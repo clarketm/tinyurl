@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+root_dir=$( git rev-parse --show-toplevel )
+files=$( git diff --cached --name-only --diff-filter=ACM )
+
+make -C "$root_dir" format  ; RESULT_1=$?
+make -C "$root_dir" test    ; RESULT_2=$?
+
+echo "$files" | xargs -d'\n' git add
+
+[ "$RESULT_1" -eq 0 -a "$RESULT_2" -eq 0 ] && exit 0 || exit 1
