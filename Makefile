@@ -102,5 +102,13 @@ push:
 
 .PHONY: deploy
 deploy:
+	# Install nginx-ingress
+	kubectl create namespace nginx-ingress
+	helm install nginx-ingress stable/nginx-ingress --namespace nginx-ingress
+	# Install cert-manager
+	kubectl create namespace cert-manager
+	kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.crds.yaml
+	helm install cert-manager jetstack/cert-manager --namespace cert-manager
+	# Install tinyurl
 	helm install tinyurl ./deploy
 
