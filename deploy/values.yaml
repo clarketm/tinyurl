@@ -6,11 +6,11 @@ replicaCount: 1
 
 image:
   repository: clarketm/tinyurl
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 imagePullSecrets: []
 nameOverride: ""
-fullnameOverride: ""
+fullnameOverride: tinyurl
 
 serviceAccount:
   create: true
@@ -27,14 +27,15 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
+    cert-manager.io/issuer: "selfsigned-issuer"
   hosts:
-  - host: tinyurl.local
+  - host: tinyurl.travismclarke.com
     paths:
     - /
   tls:
   - secretName: tinyurl-tls
     hosts:
-    - tinyurl.local
+    - tinyurl.travismclarke.com
 
 resources: {}
 
@@ -47,7 +48,18 @@ affinity: {}
 ################################################################################
 # cert-manager
 ################################################################################
+cert-manager:
+  fullnameOverride: cert-manager
 
 ################################################################################
 # redis
 ################################################################################
+redis:
+  fullnameOverride: redis
+  usePassword: false
+
+################################################################################
+# nginx-ingress
+################################################################################
+nginx-ingress:
+  fullnameOverride: nginx-ingress
