@@ -1,8 +1,8 @@
 SHELL := $(shell which bash)
-HUB = clarketm
-PROJECT = tinyurl
-VERSION := $(shell yq r ./deploy/Chart.yaml 'appVersion')
 PYTHON := python3
+HUB := clarketm
+PROJECT := tinyurl
+VERSION := $(shell yq r ./deploy/Chart.yaml 'appVersion')
 
 .PHONY: list
 l h list help:
