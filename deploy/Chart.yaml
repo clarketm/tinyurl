@@ -8,3 +8,9 @@ dependencies:
 - name: redis
   version: 10.5.7
   repository: https://charts.bitnami.com/bitnami
+#- name: cert-manager
+#  version: 0.14.1
+#  repository: https://charts.jetstack.io
+- name: nginx-ingress
+  version: 1.36.0
+  repository: https://kubernetes-charts.storage.googleapis.com

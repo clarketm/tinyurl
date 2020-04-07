@@ -3,7 +3,7 @@ version: "3.2"
 services:
 
   api-tools-api_dev:
-    image: clarketm/tinyurl:$VERSION-dev
+    image: clarketm/tinyurl:latest-dev
     restart: "always"
     build:
       context: .

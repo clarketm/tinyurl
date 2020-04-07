@@ -1,5 +1,5 @@
 SHELL := $(shell which bash)
-HUB = $(HUB)
+HUB = clarketm
 PROJECT = tinyurl
 VERSION := $(shell yq r ./deploy/Chart.yaml 'appVersion')
 PYTHON := python3
@@ -102,5 +102,5 @@ push:
 
 .PHONY: deploy
 deploy:
-	@echo "TODO:
+	helm install tinyurl ./deploy
 
