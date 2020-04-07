@@ -13,9 +13,9 @@ pyment = "*"
 [packages]
 fastapi = "*"
 uvicorn = "*"
-pymongo = "*"
 redis = "*"
 pybase62 = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.7"

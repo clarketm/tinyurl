@@ -18,6 +18,6 @@ RUN apk add --no-cache bash git build-base jpeg-dev zlib-dev && \
 
 COPY ./ ./
 
-EXPOSE 8000
+EXPOSE $API_PORT
 
 CMD ["make", "start"]

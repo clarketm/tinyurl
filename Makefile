@@ -55,12 +55,20 @@ requirements:
 
 .PHONY: start-dev
 start-dev:
-	uvicorn main:app --reload
+	uvicorn --host=0.0.0.0 --port=8000 main:app --reload
 
 .PHONY: start
 start:
-	uvicorn main:app --reload
+	uvicorn --host=0.0.0.0 --port=8000 main:app
 #	gunicorn -b 0.0.0.0:${PORT} -k eventlet -w ${CORES} -t 900 --reload api_tools.wsgi
+
+.PHONY: start-docker
+start-docker:
+	docker-compose up
+
+.PHONY: start-docker-dev
+start-docker-dev:
+	docker-compose -f docker-compose.dev.yml up
 
 .PHONY: docstring
 docstring:
@@ -96,7 +104,7 @@ build-hash:
 
 .PHONY: deploy
 deploy:
-	@echo "Use: 'deploy-compose' or 'deploy-swarm' or 'deploy-aws'"
+	@echo "TODO:
 
 .PHONY: upload-test
 upload-test: test clean build check

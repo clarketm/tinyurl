@@ -1,9 +1,9 @@
-import setuptools
+from setuptools import setup, find_packages
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-setuptools.setup(
+setup(
     name="api-tools",
     version="0.0.1",
     author="Travis Clarke",
@@ -11,9 +11,12 @@ setuptools.setup(
     description="Tiny URL API",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    packages=setuptools.find_packages(),
+    packages=find_packages(),
     install_requires=[
         "fastapi",
+        "pybase62",
+        "python-dotenv"
+        "redis"
         "uvicorn",
     ],
     extras_require={

@@ -1,11 +1,15 @@
+from os import getenv
+
 from base62 import encode
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from pydantic import BaseModel
 from redis import Redis
 from starlette.responses import RedirectResponse
 
+load_dotenv()
 app = FastAPI()
-db = Redis()
+db = Redis(host=getenv("REDIS_HOST"), port=getenv("REDIS_PORT"))
 
 
 class URL(BaseModel):
@@ -26,7 +30,7 @@ def read_short_url(short_url: str):
 
 @app.post("/")
 def create_short_url(url: URL):
-    count = db.incr("count", 1)
+    count = db.incr("count", 0)
     short_url = encode(count)
     db.hset("urls", short_url, url.long_url)
     return {"short_url": short_url, "long_url": url.long_url}
