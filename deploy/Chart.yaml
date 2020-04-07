@@ -1,0 +1,10 @@
+apiVersion: v2
+name: tinyurl
+description: A Helm chart for Tiny URL API
+type: application
+version: 0.1.0
+appVersion: 1.0.0
+dependencies:
+- name: redis
+  version: 10.5.7
+  repository: https://charts.bitnami.com/bitnami

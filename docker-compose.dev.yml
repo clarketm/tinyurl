@@ -1,0 +1,36 @@
+version: "3.2"
+
+services:
+
+  api-tools-api_dev:
+    image: clarketm/tinyurl:$VERSION-dev
+    restart: "always"
+    build:
+      context: .
+      args:
+        ROOT_DIR: $ROOT_DIR
+    command: wait-for-it --service redis_dev:$REDIS_PORT --timeout 0 -- make start-dev
+    ports:
+    - $API_PORT:$API_PORT
+    environment:
+    - REDIS_HOST=redis_dev
+    volumes:
+    - ./:/$ROOT_DIR
+    depends_on:
+    - redis_dev
+    networks:
+    - local
+
+  redis_dev:
+    image: redis
+    restart: "always"
+    volumes:
+    - redis_db_data_dev:/data
+    networks:
+    - local
+
+volumes:
+  redis_db_data_dev:
+
+networks:
+  local:
