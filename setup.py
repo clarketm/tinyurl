@@ -14,11 +14,11 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[
         "fastapi",
+        "uvicorn",
     ],
     extras_require={
         "dev": [
             "black",
-            "uvicorn",
             "pyment",
             "pytest",
             "pytest-cov",
