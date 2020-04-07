@@ -1,4 +1,8 @@
-SHELL:=$(shell which bash)
+SHELL := $(shell which bash)
+HUB = $(HUB)
+PROJECT = tinyurl
+VERSION := $(shell yq r ./deploy/Chart.yaml 'appVersion')
+PYTHON := python3
 
 .PHONY: list
 l h list help:
@@ -6,29 +10,30 @@ l h list help:
 
 .PHONY: install
 install:
-	python3 -m pip install --upgrade -e .
+	$(PYTHON) -m pip install --upgrade -e .
 
 .PHONY: install-dev
 install-dev:
-	python3 -m pip install --upgrade -e .[dev]
+	$(PYTHON) -m pip install --upgrade -e .[dev]
 
 .PHONY: dev
 dev:
 ifeq (, $(shell which pipenv))
-	python3 -m pip install -r requirements-dev.txt
+	$(PYTHON) -m pip install -r requirements-dev.txt
 else
 	pipenv install --dev
 endif
 	hooks
 
-.PHONY: hooks precommit
-hooks precommit:
-	cp ./hooks/pre-commit $(shell  git rev-parse --git-path hooks)
+.PHONY: requirements
+requirements:
+	pipenv lock --requirements | sed '1,2d' > requirements.txt
+	pipenv lock --dev --requirements | sed '1,2d' > requirements-dev.txt
 
 .PHONY: create-venv
 create-venv:
 ifeq (, $(shell which pipenv))
-	test -d venv || python3 -m venv venv
+	test -d venv || $(PYTHON) -m venv venv
 endif
 
 .PHONY: venv
@@ -41,17 +46,20 @@ endif
 
 .PHONY: format
 f format:
-	python3 -m black . -l 150
+	$(PYTHON) -m black . -l 150
 
-.PHONY: build
-build: clean
-	rm -rf ./dist/*
-	python3 setup.py sdist bdist_wheel
+.PHONY: docstring
+docstring:
+	pyment -w ./tinyurl
 
-.PHONY: requirements
-requirements:
-	pipenv lock --requirements | sed '1,2d' > requirements.txt
-	pipenv lock --dev --requirements | sed '1,2d' > requirements-dev.txt
+.PHONY: hooks precommit
+hooks precommit:
+	cp ./hooks/pre-commit $(shell  git rev-parse --git-path hooks)
+
+.PHONY: hash
+hash:
+	mkdir -p ./config
+	git rev-parse --short=7 HEAD > ./config/BUILD
 
 .PHONY: start-dev
 start-dev:
@@ -70,47 +78,29 @@ start-docker:
 start-docker-dev:
 	docker-compose -f docker-compose.dev.yml up
 
-.PHONY: docstring
-docstring:
-	pyment -w ./tinyurl
-
 .PHONY: test
 test:
-	python3 -m pytest tests --quiet
+	$(PYTHON) -m pytest *_test.py --quiet
 
 .PHONY: test-envs
 test-envs:
 	pyenv local 3.5.6 3.6.8 3.7.7 system
-	python3 -m tox
+	$(PYTHON) -m tox
 
 .PHONY: test-cov
 test-cov:
-	python3 -m pytest tests --quiet --cov=api_tools --cov-report=html --cov-report=term --show-capture=all
+	$(PYTHON) -m pytest tests --quiet --cov=api_tools --cov-report=html --cov-report=term --show-capture=all
 
-.PHONY: clean
-clean:
-	rm -rf ./dist ./build ./*.egg-info ./htmlcov ./.pytest_cache
-	find . -name '*.pyc' -delete
-	find . -name '__pycache__' -delete
+.PHONY: image
+image:
+	docker build -t "$(HUB)/$(PROJECT):latest" -t "$(HUB)/$(PROJECT):$(VERSION)" .
 
-.PHONY: check
-check:
-	twine check dist/*
-
-.PHONY: build-hash
-build-hash:
-	mkdir -p ./config
-	git rev-parse --short=7 HEAD > ./config/BUILD
+.PHONY: push
+push:
+	docker push "$(HUB)/$(PROJECT):latest"
+	docker push "$(HUB)/$(PROJECT):$(VERSION)"
 
 .PHONY: deploy
 deploy:
 	@echo "TODO:
-
-.PHONY: upload-test
-upload-test: test clean build check
-	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
-
-.PHONY: upload
-publish upload: test clean build check
-	twine upload dist/*
 

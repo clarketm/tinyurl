@@ -12,22 +12,8 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=find_packages(),
-    install_requires=[
-        "fastapi",
-        "pybase62",
-        "python-dotenv"
-        "redis"
-        "uvicorn",
-    ],
-    extras_require={
-        "dev": [
-            "black",
-            "pyment",
-            "pytest",
-            "pytest-cov",
-            "tox",
-        ]
-    },
+    install_requires=["fastapi", "pybase62", "python-dotenv" "redis" "uvicorn",],
+    extras_require={"dev": ["black", "pyment", "pytest", "pytest-cov", "tox",]},
     entry_points={"console_scripts": ["api-tools=main:app"]},
     classifiers=[
         "Programming Language :: Python :: 3",
