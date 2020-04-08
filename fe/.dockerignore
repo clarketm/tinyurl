@@ -1,0 +1,11 @@
+**/.idea
+**/.circleci
+**/.git
+**/.pytest_cache
+**/.tox
+**/*.egg-info
+**/__pycache__
+**/build
+**/node_modules
+**/venv
+**/pip-wheel-metadata
