@@ -10,7 +10,7 @@ hash:
 	@git rev-parse --short=7 HEAD > ./config/BUILD
 
 .PHONY: start
-start-docker:
+start:
 	docker-compose up
 
 .PHONY: start-dev

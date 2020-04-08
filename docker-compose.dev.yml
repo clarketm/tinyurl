@@ -4,18 +4,18 @@ services:
 
   api-tools-api_dev:
     image: clarketm/tinyurl-be:latest-dev
-    restart: "always"
+    restart: always
     build:
       context: ./be/
       args:
         ROOT_DIR: $ROOT_DIR
-    command: wait-for-it --service redis_dev:$REDIS_MASTER_SERVICE_PORT --timeout 0 -- make -C be start-dev
+    command: wait-for-it --service redis_dev:$REDIS_MASTER_SERVICE_PORT --timeout 0 -- make start-dev
     ports:
     - $BE_PORT:$BE_PORT
     environment:
     - REDIS_MASTER_SERVICE_HOST=redis_dev
     volumes:
-    - ./:/$ROOT_DIR
+    - ./be:/$ROOT_DIR
     depends_on:
     - redis_dev
     networks:
@@ -23,7 +23,7 @@ services:
 
   redis_dev:
     image: redis
-    restart: "always"
+    restart: always
     volumes:
     - redis_db_data_dev:/data
     networks:
