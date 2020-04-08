@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name="api-tools",
+    name="tinyurl",
     version="0.0.1",
     author="Travis Clarke",
     author_email="travis.m.clarke@gmail.com",
@@ -14,7 +14,7 @@ setup(
     packages=find_packages(),
     install_requires=["fastapi", "pybase62", "python-dotenv" "redis" "gunicorn", "uvicorn"],
     extras_require={"dev": ["black", "pyment", "pytest", "pytest-cov", "tox",]},
-    entry_points={"console_scripts": ["api-tools=main:app"]},
+    entry_points={"console_scripts": ["tinyurl=main:app"]},
     classifiers=[
         "Programming Language :: Python :: 3",
         "Framework :: FastAPI",
