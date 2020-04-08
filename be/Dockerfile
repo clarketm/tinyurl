@@ -10,14 +10,14 @@ RUN mkdir -p "/$ROOT_DIR"
 WORKDIR "/$ROOT_DIR"
 
 COPY ./Pipfile ./Pipfile.lock ./setup.py ./README.md ./
-COPY ./config/BUILD ./config/
+#COPY ../config/BUILD ./config/
 
-RUN apk add --no-cache bash git build-base jpeg-dev zlib-dev && \
+RUN apk add --no-cache bash build-base && \
     pip install pipenv wait-for-it && \
     pipenv install --dev --system --deploy
 
 COPY ./ ./
 
-EXPOSE $API_PORT
+EXPOSE $BE_PORT
 
 CMD ["make", "start"]

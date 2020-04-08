@@ -3,15 +3,15 @@ version: "3.2"
 services:
 
   api-tools-api_dev:
-    image: clarketm/tinyurl:latest-dev
+    image: clarketm/tinyurl-be:latest-dev
     restart: "always"
     build:
-      context: .
+      context: ./be/
       args:
         ROOT_DIR: $ROOT_DIR
-    command: wait-for-it --service redis_dev:$REDIS_PORT --timeout 0 -- make start-dev
+    command: wait-for-it --service redis_dev:$REDIS_MASTER_SERVICE_PORT --timeout 0 -- make -C be start-dev
     ports:
-    - $API_PORT:$API_PORT
+    - $BE_PORT:$BE_PORT
     environment:
     - REDIS_MASTER_SERVICE_HOST=redis_dev
     volumes:
