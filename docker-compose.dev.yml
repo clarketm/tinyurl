@@ -2,7 +2,24 @@ version: "3.2"
 
 services:
 
-  api-tools-api_dev:
+  tinyurl-ui_dev:
+    image: clarketm/tinyurl-fe:latest-dev
+    restart: always
+    build:
+      context: ./fe/
+      args:
+        ROOT_DIR: $ROOT_DIR
+    command: yarn start
+    ports:
+    - $FE_PORT:$FE_PORT
+    environment:
+    - CI=true
+    volumes:
+    - ./fe:/$ROOT_DIR
+    networks:
+    - local
+
+  tinyurl-api_dev:
     image: clarketm/tinyurl-be:latest-dev
     restart: always
     build:

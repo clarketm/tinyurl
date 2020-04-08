@@ -9,7 +9,7 @@ services:
       context: ./fe/
       args:
         ROOT_DIR: $ROOT_DIR
-    command: yarn start
+    command: yarn serve
     ports:
     - $FE_PORT:$FE_PORT
     volumes:
