@@ -13,7 +13,7 @@ services:
     ports:
     - $PORT:$API_PORT
     environment:
-    - REDIS_HOST=redis
+    - REDIS_MASTER_SERVICE_HOST=redis
     depends_on:
     - redis
     networks:

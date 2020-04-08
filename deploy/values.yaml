@@ -41,6 +41,14 @@ resources: {}
 
 nodeSelector: {}
 
+# REDIS_MASTER_SERVICE_HOST and REDIS_MASTER_SERVICE_PORT
+# are already set in pods.
+#env:
+#- name: REDIS_HOST
+#  value: redis-master
+#- name: REDIS_PORT
+#  value: "6379"
+
 tolerations: []
 
 affinity: {}

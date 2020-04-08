@@ -9,7 +9,7 @@ from starlette.responses import RedirectResponse
 
 load_dotenv()
 app = FastAPI()
-db = Redis(host=getenv("REDIS_HOST"), port=getenv("REDIS_PORT"))
+db = Redis(host=getenv("REDIS_MASTER_SERVICE_HOST"), port=getenv("REDIS_MASTER_SERVICE_PORT"))
 
 
 class URL(BaseModel):

@@ -100,8 +100,8 @@ push:
 	docker push "$(HUB)/$(PROJECT):latest"
 	docker push "$(HUB)/$(PROJECT):$(VERSION)"
 
-.PHONY: deploy
-deploy:
+.PHONY: deploy-new
+deploy-new:
 	# Install nginx-ingress
 	kubectl create namespace nginx-ingress
 	helm install nginx-ingress stable/nginx-ingress --namespace nginx-ingress
@@ -110,5 +110,9 @@ deploy:
 	kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.crds.yaml
 	helm install cert-manager jetstack/cert-manager --namespace cert-manager
 	# Install tinyurl
-	helm install tinyurl ./deploy
+	kubectl create namespace app
+	helm install tinyurl ./deploy --namespace app
 
+.PHONY: deploy-update
+deploy-update:
+	helm upgrade tinyurl ./deploy --namespace app
