@@ -10,7 +10,7 @@ PORT := 8000
 .PHONY: dev install
 dev install:
 ifeq (, $(shell which pipenv))
-	python3 -m pip install -r requirements-dev.txt
+	$(PYTHON) -m pip install -r requirements-dev.txt
 else
 	pipenv install --dev
 endif
