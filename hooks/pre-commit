@@ -1,10 +1,11 @@
 #!/usr/bin/env sh
 
 root_dir=$( git rev-parse --show-toplevel )
-files=$( git diff --cached --name-only --diff-filter=ACM )
+target_dir="$root_dir/be"
+files=$( git diff --cached --name-only --diff-filter=ACM "$target_dir" )
 
-make -C "$root_dir/be" format  ; RESULT_1=$?
-make -C "$root_dir/be" test    ; RESULT_2=$?
+make -C "$target_dir" format  ; RESULT_1=$?
+make -C "$target_dir" test    ; RESULT_2=$?
 
 echo "$files" | xargs -d'\n' git add
 
