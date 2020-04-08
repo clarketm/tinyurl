@@ -44,15 +44,15 @@ docstring:
 
 .PHONY: start-dev
 start-dev:
-	uvicorn --host=0.0.0.0 --port=${PORT} main:app --reload
+	uvicorn --host=0.0.0.0 --port=${PORT} app.main:app --reload
 
 .PHONY: start
 start:
-	gunicorn -b 0.0.0.0:${PORT} -k uvicorn.workers.UvicornWorker -w ${CORES} -t 900 main:app
+	gunicorn -b 0.0.0.0:${PORT} -k uvicorn.workers.UvicornWorker -w ${CORES} -t 900 app.main:app
 
 .PHONY: test
 test:
-	$(PYTHON) -m pytest *_test.py --quiet
+	$(PYTHON) -m pytest **/*_test.py --quiet
 
 .PHONY: test-envs
 test-envs:

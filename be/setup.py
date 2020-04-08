@@ -14,7 +14,7 @@ setup(
     packages=find_packages(),
     install_requires=["fastapi", "pybase62", "python-dotenv" "redis" "gunicorn", "uvicorn"],
     extras_require={"dev": ["black", "pyment", "pytest", "pytest-cov", "tox",]},
-    entry_points={"console_scripts": ["tinyurl=main:app"]},
+    entry_points={"console_scripts": ["tinyurl=app.main:app"]},
     classifiers=[
         "Programming Language :: Python :: 3",
         "Framework :: FastAPI",
