@@ -9,7 +9,7 @@ from starlette.responses import RedirectResponse
 
 from .api.constants import URLS, SHORT_URL, LONG_URL
 from .api.models import URL
-from .api.utils import format_short_url, canonicalize_url, with_rotating_str, base62
+from .api.utils import format_short_url, canonicalize_url, rotate_until, base62
 
 load_dotenv()
 app = FastAPI()
@@ -55,6 +55,9 @@ async def create_short_url(url: URL):
     # md5/base62 approach
     ####################################
     setter = lambda short_url: db.hsetnx(URLS, short_url, long_url)
-    short_url = with_rotating_str(base62(long_url), setter)
+    short_url = rotate_until(base62(long_url), setter)
+
+    if not short_url:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="URL not hashable")
 
     return {SHORT_URL: format_short_url(short_url), LONG_URL: long_url}

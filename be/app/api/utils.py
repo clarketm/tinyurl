@@ -7,13 +7,13 @@ from base62 import encode
 from .constants import ORIGIN
 
 
-def with_rotating_str(s: str, f: Callable[[str], int]):
+def rotate_until(s: str, f: Callable[[str], int]):
     i = 0
     char_len = 7
     hash_len = len(s)
 
-    while True:
-        short_hash = s[: i // hash_len + char_len]
+    while (n := i // hash_len + char_len) <= hash_len:
+        short_hash = s[:n]
 
         if f(short_hash):
             break
