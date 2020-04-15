@@ -12,7 +12,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=find_packages(),
-    install_requires=["fastapi", "pybase62", "python-dotenv" "redis" "gunicorn", "uvicorn"],
+    install_requires=["fastapi", "pybase62", "python-dotenv", "redis", "cassandra-driver", "gunicorn", "uvicorn"],
     extras_require={"dev": ["black", "pyment", "pytest", "pytest-cov", "tox",]},
     entry_points={"console_scripts": ["tinyurl=app.main:app"]},
     classifiers=[

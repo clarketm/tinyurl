@@ -24,27 +24,38 @@ services:
       context: ./be/
       args:
         ROOT_DIR: $ROOT_DIR
-    command: wait-for-it --service redis:$REDIS_MASTER_SERVICE_PORT --timeout 0 -- make start
+    command: wait-for-it --service redis:$REDIS_MASTER_SERVICE_PORT cassandra:$CASSANDRA_MASTER_SERVICE_PORT --timeout 0 -- make start
     ports:
     - $BE_PORT:$BE_PORT
     environment:
     - REDIS_MASTER_SERVICE_HOST=redis
+    - CASSANDRA_MASTER_SERVICE_HOST=redis
     depends_on:
     - redis
+    - cassandra
     networks:
     - local
 
   redis:
-    image: redis:latest
+    image: redis:5.0
     restart: always
     volumes:
     - redis_db_data:/data
     networks:
     - local
 
+  cassandra:
+    image: cassandra:3.11
+    restart: always
+    volumes:
+    - cassandra_db_data:/var/lib/cassandra
+    networks:
+    - local
+
 volumes:
   tinyurl-ui_node_modules:
   redis_db_data:
+  cassandra_db_data:
 
 networks:
   local:

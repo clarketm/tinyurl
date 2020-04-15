@@ -17,8 +17,12 @@ start:
 start-dev:
 	@docker-compose -f docker-compose.dev.yml up
 
+.PHONY: dep-update
+dep-update:
+	@helm dependency update
+
 .PHONY: deploy-new
-deploy-new:
+deploy-new: dep-update
 	# Install nginx-ingress
 	@kubectl create namespace nginx-ingress
 	@helm install nginx-ingress stable/nginx-ingress --namespace nginx-ingress

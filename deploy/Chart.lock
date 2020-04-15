@@ -1,12 +1,9 @@
 dependencies:
 - name: redis
   repository: https://charts.bitnami.com/bitnami
-  version: 10.5.7
-- name: cert-manager
-  repository: https://charts.jetstack.io
-  version: v0.14.1
-- name: nginx-ingress
-  repository: https://kubernetes-charts.storage.googleapis.com
-  version: 1.36.0
-digest: sha256:54256d18a6d712ef299875f87f6ce33afbbb157f833f5289d1e59c3556a03ae7
-generated: "2020-04-07T00:55:00.362588-07:00"
+  version: 10.6.5
+- name: cassandra
+  repository: https://charts.bitnami.com/bitnami
+  version: 5.2.0
+digest: sha256:ef26423e09110ed2cfe6f75ebe4790a903fba58137a9bd3587844ca3038e4f1d
+generated: "2020-04-14T20:26:54.64335-07:00"

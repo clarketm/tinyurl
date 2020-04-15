@@ -26,28 +26,43 @@ services:
       context: ./be/
       args:
         ROOT_DIR: $ROOT_DIR
-    command: wait-for-it --service redis_dev:$REDIS_MASTER_SERVICE_PORT --timeout 0 -- make start-dev
+    command: wait-for-it --service redis_dev:$REDIS_MASTER_SERVICE_PORT cassandra:$CASSANDRA_MASTER_SERVICE_PORT --timeout 0 -- make start-dev
     ports:
     - $BE_PORT:$BE_PORT
     environment:
     - REDIS_MASTER_SERVICE_HOST=redis_dev
+    - CASSANDRA_MASTER_SERVICE_HOST=cassandra_dev
     volumes:
     - ./be:/$ROOT_DIR
     depends_on:
     - redis_dev
+    - cassandra_dev
     networks:
     - local
 
   redis_dev:
-    image: redis
+    image: redis:5.0
     restart: always
+    ports:
+    - $REDIS_MASTER_SERVICE_PORT:$REDIS_MASTER_SERVICE_PORT
     volumes:
     - redis_db_data_dev:/data
     networks:
     - local
 
+  cassandra_dev:
+    image: cassandra:3.11
+    restart: always
+    ports:
+    - $CASSANDRA_MASTER_SERVICE_PORT:$CASSANDRA_MASTER_SERVICE_PORT
+    volumes:
+    - cassandra_db_data_dev:/var/lib/cassandra
+    networks:
+    - local
+
 volumes:
   redis_db_data_dev:
+  cassandra_db_data_dev:
 
 networks:
   local:
