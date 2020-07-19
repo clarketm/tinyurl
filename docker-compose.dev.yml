@@ -26,7 +26,7 @@ services:
       context: ./be/
       args:
         ROOT_DIR: $ROOT_DIR
-    command: wait-for-it --service redis_dev:$REDIS_MASTER_SERVICE_PORT cassandra:$CASSANDRA_MASTER_SERVICE_PORT --timeout 0 -- make start-dev
+    command: wait-for-it --service redis_dev:$REDIS_MASTER_SERVICE_PORT --service cassandra:$CASSANDRA_MASTER_SERVICE_PORT --timeout 0 -- make start-dev
     ports:
     - $BE_PORT:$BE_PORT
     environment:
